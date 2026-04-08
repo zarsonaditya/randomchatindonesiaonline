@@ -1,6 +1,7 @@
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { MessageCircle, Users, Wifi } from "lucide-react";
-import { useGetChatStats, getGetChatStatsQueryKey } from "@workspace/api-client-react";
+import { useGetChatStats } from "@workspace/api-client-react";
 
 interface WaitingPageProps {
   username: string;
@@ -8,12 +9,12 @@ interface WaitingPageProps {
 }
 
 export default function WaitingPage({ username, onCancel }: WaitingPageProps) {
-  const { data: stats } = useGetChatStats({
-    query: {
-      queryKey: getGetChatStatsQueryKey(),
-      refetchInterval: 3000,
-    },
-  });
+  const { data: stats, refetch } = useGetChatStats();
+
+  useEffect(() => {
+    const interval = setInterval(() => { void refetch(); }, 3000);
+    return () => clearInterval(interval);
+  }, [refetch]);
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
