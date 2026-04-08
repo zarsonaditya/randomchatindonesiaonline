@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "RandomChat Indonesia"
+version = "1.0.0"
+id = "artifacts/randomchat"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 26007
+
+[services.development]
+run = "pnpm --filter @workspace/randomchat run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/randomchat", "run", "build" ]
+publicDir = "artifacts/randomchat/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "26007"
+BASE_PATH = "/"
