@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { MessageCircle, Users, Wifi } from "lucide-react";
-import { useGetChatStats } from "@workspace/api-client-react";
+import { useGetChatStats, getGetChatStatsQueryKey } from "@workspace/api-client-react";
 
 interface WaitingPageProps {
   username: string;
@@ -10,6 +10,7 @@ interface WaitingPageProps {
 export default function WaitingPage({ username, onCancel }: WaitingPageProps) {
   const { data: stats } = useGetChatStats({
     query: {
+      queryKey: getGetChatStatsQueryKey(),
       refetchInterval: 3000,
     },
   });
